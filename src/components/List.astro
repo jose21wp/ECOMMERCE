@@ -1,0 +1,317 @@
+---
+const response = await fetch("https://dummyjson.com/products");
+const { products }: { products: Product[] } = await response.json();
+---
+
+<div class="container">
+  {
+    products.map((product: Product) => (
+      <div class="card">
+        <div class="card__title">
+          <div class="icon">
+            <a href="#">
+              <i class="fa fa-arrow-left" />
+            </a>
+          </div>
+          <h3>{product.category}</h3>
+        </div>
+        <div class="card__body">
+          <div class="half">
+            <div class="featured_text">
+              <h1 id="title-product">{product.title}</h1>
+              <p class="sub">{product.brand}</p>
+              <p class="price">${product.price}</p>
+            </div>
+            <div class="image">
+              <img src={product.images[0]} alt={product.title} />
+            </div>
+          </div>
+          <div class="half">
+            <div class="description">
+              <p>{product.description}</p>
+            </div>
+            <span class="stock">
+              <i class="fa fa-pen" /> In stock
+            </span>
+            <div class="reviews">
+              <ul class="stars">
+                {product.reviews.map((review) => (
+                  <li>
+                    {Array.from({ length: review.rating }).map(() => (
+                      <i class="fa fa-star" />
+                    ))}
+                    <br />
+                    <span>{review.comment}</span>
+                  </li>
+                  <br>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card__footer">
+          <div class="recommend" />
+          <div class="action" />
+        </div>
+      </div>
+    ))
+  }
+</div>
+<style>
+ 
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    
+  }
+  
+  .card {
+    box-shadow: 0 6px 6px rgba(#000, 0.3);
+    transition: 200ms;
+    background: #fff;
+    margin: 1rem;
+    border-radius: 20px;
+    min-width: 30%;
+    max-width: 30%;
+    .card__title {
+      display: flex;
+      align-items: center;
+      padding: 30px 40px;
+
+      h3 {
+        flex: 0 1 200px;
+        text-align: right;
+        margin: 0;
+        color: #252525;
+        font-family: sans-serif;
+        font-weight: 600;
+        font-size: 20px;
+        text-transform: uppercase;
+      }
+
+      .icon {
+        flex: 1 0 10px;
+        background: #115dd8;
+        color: #fff;
+        padding: 10px 10px;
+        transition: 200ms;
+
+        > a {
+          color: #fff;
+        }
+
+        &:hover {
+          background: #252525;
+        }
+      }
+    }
+
+    .card__body {
+      padding: 0 40px;
+      display: flex;
+      margin-bottom: 25px;
+
+      &.half {
+        box-sizing: border-box;
+        padding: 0 15px;
+        flex: 1 0 50%;
+      }
+
+      .featured_text {
+        h1 {
+          margin: 0;
+          padding: auto;
+          font-weight: 800;
+          font-family: "Montserrat", sans-serif;
+          font-size: auto;
+          line-height: 30px;
+          color: #181e28;
+        }
+
+        p {
+          margin: 0;
+          padding: 0;
+
+          &.sub {
+            font-family: "Montserrat", sans-serif;
+            font-size: 26px;
+            text-transform: uppercase;
+            color: #686e77;
+            font-weight: 300;
+            margin-bottom: 5px;
+          }
+
+          &.price {
+            font-family: "Fjalla One", sans-serif;
+            color: #252525;
+            font-size: 26px;
+          }
+        }
+      }
+
+      .image {
+        padding-top: 15px;
+        width: 100%;
+
+        img {
+          display: block;
+          max-width: 100%;
+          height: auto;
+        }
+      }
+
+      .description {
+        margin-bottom: 25px;
+
+        p {
+          margin: 0;
+          font-family: "Open Sans", sans-serif;
+          font-weight: 300;
+          line-height: 27px;
+          font-size: 16px;
+          color: #555;
+        }
+      }
+
+      span.stock {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        color: #a1cc16;
+      }
+
+      .reviews {
+        .stars {
+          display: inline-block;
+          list-style: none;
+          padding: 0;
+
+          > li {
+            display: inline-block;
+            margin-bottom: 1rem;
+
+            .fa {
+              color: #f7c01b;
+            }
+          }
+        }
+
+        > span {
+          font-family: "Open Sans", sans-serif;
+          font-size: 14px;
+          margin-left: 5px;
+          color: #555;
+        }
+      }
+    }
+
+    .card__footer {
+      padding: 30px 40px;
+      display: flex;
+      flex-flow: row no-wrap;
+      align-items: center;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 40px;
+        width: calc(100% - 40px);
+        height: 3px;
+        background: #115dd8;
+        background: linear-gradient(to right, #115dd8 0%, #115dd8 20%, #ddd 20%, #ddd 100%);
+      }
+
+      .recommend {
+        flex: 1 0 10px;
+
+        p {
+          margin: 0;
+          font-family: "Montserrat", sans-serif;
+          text-transform: uppercase;
+          font-weight: 600;
+          font-size: 14px;
+          color: #555;
+        }
+
+        h3 {
+          margin: 0;
+          font-size: 20px;
+          font-family: "Montserrat", sans-serif;
+          font-weight: 600;
+          text-transform: uppercase;
+          color: #115dd8;
+        }
+      }
+
+      .action {
+        button {
+          cursor: pointer;
+          border: 1px solid #115dd8;
+          padding: 14px 30px;
+          border-radius: 200px;
+          color: #fff;
+          background: #115dd8;
+          font-family: "Open Sans", sans-serif;
+          font-size: 16px;
+          transition: 200ms;
+
+          &:hover {
+            background: #fff;
+            color: #115dd8;
+          }
+        }
+      }
+    }
+  }
+
+
+ @media only screen and (max-width: 600px) {
+    .card{
+    min-width: 90%;
+    max-width: 90%;
+    margin: 1rem;
+   }
+  }
+
+/* Pequeño (tablets en vertical) */
+@media only screen and (min-width: 600px) {
+    .card{
+    min-width: 100%;
+    max-width: 100%;
+    margin: 1rem;
+   }
+ }
+
+/* Mediano (tablets en horizontal) */
+@media only screen and (min-width: 768px) {
+    .card{
+    min-width: 90%;
+    max-width: 90%;
+    margin: 1rem;
+   }
+ }
+
+/* Grande (laptops y desktops) */
+@media only screen and (min-width: 992px) {
+    .card{
+    min-width: 50%;
+    max-width: 50%;
+    margin: 1rem;
+   }
+ }
+
+/* Extra grande (pantallas grandes) */
+@media only screen and (min-width: 1200px) {
+    .card{
+    min-width: 30%;
+    max-width: 30%;
+    margin: 1rem;
+   }
+ }
+</style>
